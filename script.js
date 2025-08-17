@@ -1,152 +1,62 @@
-const progress = document.getElementById("progress");
-const song = document.getElementById("song");
-const controlIcon = document.getElementById("controlIcon");
-const playPauseButton = document.querySelector(".play-pause-btn");
-const nextButton = document.querySelector(".controls button.forward");
-const prevButton = document.querySelector(".controls button.backward");
-const songName = document.querySelector(".music-player h1");
-const artistName = document.querySelector(".music-player p");
-
-const songs = [
-  {
-    title: "Symphony",
-    name: "Clean Bandit ft. Zara Larsson",
-    source:
-      "https://github.com/ecemgo/mini-samples-great-tricks/raw/main/song-list/Clean-Bandit-Symphony.mp3",
-  },
-  {
-    title: "Pawn It All",
-    name: "Alicia Keys",
-    source:
-      "https://github.com/ecemgo/mini-samples-great-tricks/raw/main/song-list/Pawn-It-All.mp3",
-  },
-  {
-    title: "Seni Dert Etmeler",
-    name: "Madrigal",
-    source:
-      "https://github.com/ecemgo/mini-samples-great-tricks/raw/main/song-list/Madrigal-Seni-Dert-Etmeler.mp3",
-  },
-  {
-    title: "Instant Crush",
-    name: "Daft Punk ft. Julian Casablancas",
-    source:
-      "https://github.com/ecemgo/mini-samples-great-tricks/raw/main/song-list/Daft-Punk-Instant-Crush.mp3",
-  },
-  {
-    title: "As It Was",
-    name: "Harry Styles",
-    source:
-      "https://github.com/ecemgo/mini-samples-great-tricks/raw/main/song-list/Harry-Styles-As-It-Was.mp3",
-  },
-
-  {
-    title: "Physical",
-    name: "Dua Lipa",
-    source:
-      "https://github.com/ecemgo/mini-samples-great-tricks/raw/main/song-list/Dua-Lipa-Physical.mp3",
-  },
-  {
-    title: "Delicate",
-    name: "Taylor Swift",
-    source:
-      "https://github.com/ecemgo/mini-samples-great-tricks/raw/main/song-list/Taylor-Swift-Delicate.mp3",
-  },
+var songs = [
+  { name: "Bài hát 1", file: "https://files.catbox.moe/22en11.mp3" },
+  { name: "Bài hát 2", file: "song2.mp3" },
+  { name: "Bài hát 3", file: "song3.mp3" },
+  { name: "Bài hát 4", file: "song4.mp3" },
+  { name: "Bài hát 5", file: "song5.mp3" },
+  { name: "Bài hát 6", file: "song6.mp3" },
+  { name: "Bài hát 7", file: "song7.mp3" },
+  { name: "Bài hát 8", file: "song8.mp3" },
+  { name: "Bài hát 9", file: "song9.mp3" },
+  { name: "Bài hát 10", file: "song10.mp3" }
 ];
 
-let currentSongIndex = 3;
+let currentAudio = null;
 
-function updateSongInfo() {
-  songName.textContent = songs[currentSongIndex].title;
-  artistName.textContent = songs[currentSongIndex].name;
-  song.src = songs[currentSongIndex].source;
+function playRandomSong() {
+  const randomIndex = Math.floor(Math.random() * songs.length);
+  const song = songs[randomIndex];
 
-  song.addEventListener("loadeddata", () => {});
-}
-
-song.addEventListener("timeupdate", () => {
-  if (!song.paused) {
-    progress.value = song.currentTime;
+  // Stop current song
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
   }
-});
 
-song.addEventListener("loadedmetadata", () => {
-  progress.max = song.duration;
-  progress.value = song.currentTime;
-});
+  // Play new song
+  currentAudio = new Audio(song.file);
+  currentAudio.play();
 
-song.addEventListener("ended", () => {
-  currentSongIndex = (swiper.activeIndex + 1) % songs.length;
-  updateSongInfo();
-  swiper.slideTo(currentSongIndex); 
-  playSong(); 
-});
+  // Show popup
+  const popup = document.getElementById('popupNotification');
+  const popupInner = popup.querySelector('.popup-inner');
+  popupInner.textContent = '🎵 Đang phát: ' + song.name;
 
-function pauseSong() {
-  song.pause();
-  controlIcon.classList.remove("fa-pause");
-  controlIcon.classList.add("fa-play");
+  popup.classList.add('show');
+  setTimeout(() => {
+    popup.classList.add('hide');
+    setTimeout(() => {
+      popup.classList.remove('show', 'hide');
+    }, 500);
+  }, 3000);
+
+  // Auto next
+  currentAudio.addEventListener('ended', function () {
+    playRandomSong();
+  });
 }
 
-function playSong() {
-  song.play();
-  controlIcon.classList.add("fa-pause");
-  controlIcon.classList.remove("fa-play");
-}
+document.addEventListener('DOMContentLoaded', function () {
+  const toast = document.getElementById('toast-prompt');
+  const confirmBtn = document.querySelector('.confirm-btn');
+  const closeBtn = document.querySelector('.close-btn');
 
-function playPause() {
-  if (song.paused) {
-    playSong();
-  } else {
-    pauseSong();
-  }
-}
+  confirmBtn.addEventListener('click', () => {
+    toast.remove();
+    playRandomSong();
+  });
 
-playPauseButton.addEventListener("click", playPause);
-
-progress.addEventListener("input", () => {
-  song.currentTime = progress.value;
-});
-
-progress.addEventListener("change", () => {
-  playSong();
-});
-
-nextButton.addEventListener("click", () => {
-  currentSongIndex = (currentSongIndex + 1) % songs.length;
-  updateSongInfo();
-  playPause();
-});
-
-prevButton.addEventListener("click", () => {
-  currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-  updateSongInfo();
-  playPause();
-});
-
-updateSongInfo();
-
-var swiper = new Swiper(".swiper", {
-  effect: "coverflow",
-  centeredSlides: true,
-  initialSlide: 3,
-  slidesPerView: "auto",
-  grabCursor: true,
-  spaceBetween: 40,
-  coverflowEffect: {
-    rotate: 25,
-    stretch: 0,
-    depth: 50,
-    modifier: 1,
-    slideShadows: false,
-  },
-  navigation: {
-    nextEl: ".forward",
-    prevEl: ".backward",
-  },
-});
-
-swiper.on("slideChange", () => {
-  currentSongIndex = swiper.activeIndex;
-  updateSongInfo(); 
-  playPause(); 
+  closeBtn.addEventListener('click', () => {
+    toast.remove();
+  });
 });
