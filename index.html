@@ -1,75 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Music Player Slider</title>
-
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <!-- Ionicons -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Trình phát nhạc ngẫu nhiên</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="album-cover">
-    <div class="swiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img src="img/1.jpg" alt="Cover 1" />
-          <div class="overlay">
-            <a href="https://www.youtube.com/watch?v=aatr_2MstrI" target="_blank">
-              <ion-icon name="logo-youtube"></ion-icon>
-            </a>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <img src="img/2.jpg" alt="Cover 2" />
-          <div class="overlay">
-            <a href="https://www.youtube.com/watch?v=qEnfeG8uBRY" target="_blank">
-              <ion-icon name="logo-youtube"></ion-icon>
-            </a>
-          </div>
-        </div>
-        <!-- Thêm các slide khác ở đây -->
-      </div>
+  <!-- Thông báo phát nhạc -->
+  <div id="popupNotification" class="popup gradient-border">
+    <div class="popup-inner"></div>
+  </div>
+
+  <!-- Thông báo hỏi người dùng -->
+  <div id="toast-prompt" class="toast">
+    <img src="https://i.imgur.com/aGMqekz.gif" width="32" height="32">
+    <span>Bạn có muốn cho phép vừa nghe nhạc vừa lướt trang web không?</span>
+    <div class="toast-buttons">
+      <button class="close-btn">Không hẹn lại lần sau</button>
+      <button class="confirm-btn">Cho phép luôn</button>
     </div>
   </div>
 
-  <div class="music-player">
-    <h1>Title</h1>
-    <p>Song Name</p>
-
-    <audio id="song">
-      <source src="song-list/Luke-Bergs-Gold.mp3" type="audio/mpeg" />
-    </audio>
-
-    <input type="range" value="0" id="progress" />
-
-    <div class="controls">
-      <button class="backward">
-        <i class="fa-solid fa-backward"></i>
-      </button>
-      <button class="play-pause-btn">
-        <i class="fa-solid fa-play" id="controlIcon"></i>
-      </button>
-      <button class="forward">
-        <i class="fa-solid fa-forward"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-
-  <!-- Custom JS -->
   <script src="script.js"></script>
 </body>
 </html>
