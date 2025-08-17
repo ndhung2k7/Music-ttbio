@@ -1,181 +1,189 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600&display=swap");
-
-:root {
-  --primary-clr: rgba(228, 228, 229, 1);
+/* ======================== Hiệu ứng border động ========================= */
+@property --border-angle-1 {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Nunito", sans-serif;
+@property --border-angle-2 {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 90deg;
+}
+
+@property --border-angle-3 {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 180deg;
+}
+
+:root {
+  --bright-blue: rgb(0, 100, 255);
+  --bright-green: rgb(0, 255, 0);
+  --bright-red: rgb(255, 0, 0);
+  --background: black;
+  --foreground: white;
+  --border-size: 2px;
+  --border-radius: 0.75em;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  :root {
+    --bright-blue: color(display-p3 0 0.2 1);
+    --bright-green: color(display-p3 0.4 1 0);
+    --bright-red: color(display-p3 1 0 0);
+  }
+}
+
+@keyframes rotateBackground {
+  to { --border-angle-1: 360deg; }
+}
+@keyframes rotateBackground2 {
+  to { --border-angle-2: -270deg; }
+}
+@keyframes rotateBackground3 {
+  to { --border-angle-3: 540deg; }
+}
+
+/* ======================== Pop-up Phát nhạc ========================= */
+.popup {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: scale(0.5);
+  z-index: 1000;
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.popup.show {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.popup.hide {
+  transform: scale(0.5);
+  opacity: 0;
+}
+
+.popup.gradient-border {
+  --border-angle-1: 0deg;
+  --border-angle-2: 90deg;
+  --border-angle-3: 180deg;
+  padding: var(--border-size);
+  background-image: conic-gradient(
+      from var(--border-angle-1) at 10% 15%,
+      transparent,
+      var(--bright-blue) 10%,
+      transparent 30%,
+      transparent
+    ),
+    conic-gradient(
+      from var(--border-angle-2) at 70% 60%,
+      transparent,
+      var(--bright-green) 10%,
+      transparent 60%,
+      transparent
+    ),
+    conic-gradient(
+      from var(--border-angle-3) at 50% 20%,
+      transparent,
+      var(--bright-red) 10%,
+      transparent 50%,
+      transparent
+    );
+  animation:
+    rotateBackground 3s linear infinite,
+    rotateBackground2 8s linear infinite,
+    rotateBackground3 13s linear infinite;
+  border-radius: var(--border-radius);
+}
+
+.popup-inner {
+  background: var(--background);
+  padding: 12px 24px;
+  border-radius: calc(var(--border-radius) - var(--border-size));
+  color: var(--foreground);
+  font-size: 16px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* ======================== Toast hỏi người dùng ========================= */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+  font-size: 15px;
+  animation: slideUp 0.5s ease;
+  white-space: nowrap;
+  max-width: 95vw;
+}
+
+.toast img {
+  width: 28px;
+  height: 28px;
+}
+
+.toast-buttons {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.toast button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.toast .close-btn {
+  background-color: transparent;
+  color: #bbb;
+}
+
+.toast .confirm-btn {
+  background-color: #0d6efd;
+  color: white;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Font */
+@font-face {
+  font-family: "Aspekta";
+  font-weight: normal;
+  src: url("https://assets.codepen.io/240751/Aspekta-300.woff2") format("woff2");
 }
 
 body {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  width: 100%;
-  background: url(https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/8727c9b1-be21-4932-a221-4257b59a74dd);
-  background-repeat: no-repeat;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  animation: slidein 120s forwards infinite alternate;
-}
-
-@keyframes slidein {
-  0%,
-  100% {
-    background-position: 20% 0%;
-    background-size: 3400px;
-  }
-  50% {
-    background-position: 100% 0%;
-    background-size: 2400px;
-  }
-}
-
-.album-cover {
-  width: 90%;
-}
-
-.swiper {
-  width: 100%;
-  padding: 40px 0 100px;
-}
-
-.swiper-slide {
-  position: relative;
-  max-width: 200px;
-  aspect-ratio: 1/1;
-  border-radius: 10px;
-}
-
-.swiper-slide img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  -webkit-box-reflect: below -5px linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
-  pointer-events: none;
-  user-select: none;
-}
-
-.swiper-slide-active .overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(28, 22, 37, 0.6);
-  border-radius: inherit;
-  opacity: 0;
-  transition: all 0.4s linear;
-}
-
-.swiper-slide:hover .overlay {
-  opacity: 1;
-}
-
-.swiper-slide .overlay ion-icon {
-  opacity: 0;
-}
-
-.swiper-slide-active:hover .overlay ion-icon {
-  font-size: 4rem;
-  color: #eb0b0b;
-  opacity: 1;
-  cursor: pointer;
-}
-
-/* Music Player */
-
-.music-player {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: var(--primary-clr);
-  width: 380px;
-  padding: 10px 30px;
-  border-radius: 20px;
-}
-
-.music-player h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.6;
-}
-
-.music-player p {
-  font-size: 1rem;
-  font-weight: 400;
-  opacity: 0.6;
-}
-
-/* Music Player Progress */
-
-#progress {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 100%;
-  height: 7px;
-  background: rgba(163, 162, 164, 0.4);
-  border-radius: 4px;
-  margin: 32px 0 24px;
-  cursor: pointer;
-}
-
-#progress::-webkit-slider-thumb {
-  appearance: none;
-  -webkit-appearance: none;
-  background: rgba(163, 162, 164, 0.9);
-  width: 16px;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  outline: 4px solid var(--primary-clr);
-  box-shadow: 0 6px 10px rgba(5, 36, 28, 0.3);
-}
-
-/* Music Player Controls */
-
-.controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.controls button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  aspect-ratio: 1/1;
-  margin: 20px;
-  background: rgba(163, 162, 164, 0.3);
-  color: var(--primary-clr);
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  outline: 0;
-  font-size: 1.1rem;
-  box-shadow: 0 10px 20px rgba(5, 36, 28, 0.3);
-  cursor: pointer;
-  transition: all 0.3s linear;
-}
-
-.controls button:is(:hover, :focus-visible) {
-  transform: scale(0.96);
-}
-
-.controls button:nth-child(2) {
-  transform: scale(1.3);
-}
-
-.controls button:nth-child(2):is(:hover, :focus-visible) {
-  transform: scale(1.25);
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Aspekta", sans-serif;
+  margin: 0;
 }
