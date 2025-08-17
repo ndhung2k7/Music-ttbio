@@ -111,26 +111,53 @@
   white-space: nowrap;
 }
 
-/* ======================== Toast hỏi người dùng ========================= */
 .toast {
   position: fixed;
-  bottom: 30px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  background: #333;
+  transform: translate(-50%, -50%);
+  background: #222;
   color: #fff;
-  padding: 12px 20px;
-  border-radius: 24px;
+  padding: 24px 32px;
+  border-radius: 16px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  gap: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
   z-index: 2000;
-  font-size: 15px;
-  animation: slideUp 0.5s ease;
-  white-space: nowrap;
-  max-width: 95vw;
+  font-size: 18px;
+  max-width: 90vw;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
 }
+
+.toast-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.toast .confirm-btn {
+  background-color: #0d6efd;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.toast .close-btn {
+  background-color: transparent;
+  color: #bbb;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -60%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
 
 .toast img {
   width: 28px;
