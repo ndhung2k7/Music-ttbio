@@ -6,78 +6,78 @@
     <meta name="description" content="Gian hàng chính hãng - Mua sắm trực tuyến với hàng ngàn sản phẩm chất lượng, giá tốt nhất">
     <meta name="keywords" content="mua sắm online, shopee, gian hàng, sản phẩm hot">
     <meta name="author" content="ShopOnline">
-    <meta property="og:title" content="Gian Hàng Chính Hãng - Mua Sắm Online">
-    <meta property="og:description" content="Trải nghiệm mua sắm đỉnh cao với hàng ngàn sản phẩm chất lượng">
-    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#ee4d2d">
     <title>Gian Hàng Chính Hãng - Mua Sắm Online</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Đang tải...</p>
+        </div>
+    </div>
+
     <!-- Nút Dark Mode -->
-    <button class="dark-mode-btn" id="darkModeToggle">
-        <i class="fas fa-moon"></i>
-    </button>
+    <div class="theme-switch-wrapper">
+        <button class="theme-switch" id="darkModeToggle">
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
 
     <!-- Nút quay lên đầu trang -->
     <button class="scroll-top-btn" id="scrollTopBtn">
         <i class="fas fa-arrow-up"></i>
     </button>
 
+    <!-- Nút quay lại -->
+    <button class="back-btn" id="backBtn" style="display: none;">
+        <i class="fas fa-arrow-left"></i> Quay lại
+    </button>
+
     <!-- Header -->
-    <header class="header">
+    <header class="header" id="header">
         <div class="header-top">
             <div class="container">
                 <div class="shop-info">
                     <div class="shop-avatar">
                         <img src="https://picsum.photos/id/1/80/80" alt="Shop Logo" loading="lazy">
+                        <div class="avatar-shield">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
                     </div>
                     <div class="shop-details">
-                        <h1 class="shop-name">Gian Hàng Chính Hãng</h1>
+                        <div class="shop-name-wrapper">
+                            <h1 class="shop-name">Gian Hàng Chính Hãng</h1>
+                            <div class="verified-badge-wrapper">
+                                <i class="fas fa-check-circle verified-icon"></i>
+                                <div class="verified-tooltip">
+                                    <i class="fas fa-shield-alt"></i> Gian hàng đã được Shopee kiểm duyệt<br>
+                                    <span>Chất lượng & Uy tín hàng đầu</span>
+                                </div>
+                            </div>
+                        </div>
                         <p class="shop-desc">✨ Uy tín hàng đầu - Giao hàng nhanh chóng - Bảo hành 12 tháng ✨</p>
                         <div class="shop-stats">
-                            <span><i class="fas fa-star"></i> 4.9 (2.3k đánh giá)</span>
+                            <span><i class="fas fa-star"></i> <span id="shopRatingDisplay">4.9</span> (<span id="shopReviewCountDisplay">2.3k</span> đánh giá)</span>
                             <span><i class="fas fa-clock"></i> Tham gia 3 năm</span>
                             <span><i class="fas fa-truck"></i> Giao siêu tốc</span>
+                            <span><i class="fas fa-shield-alt"></i> Bảo hành 12 tháng</span>
                         </div>
+                    </div>
+                    <div class="shop-follow">
+                        <button class="follow-btn">
+                            <i class="fas fa-bell"></i> Theo dõi
+                        </button>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Banner Carousel -->
-        <div class="banner-carousel">
-            <div class="carousel-container">
-                <div class="carousel-slides">
-                    <div class="carousel-slide">
-                        <img src="https://picsum.photos/id/20/1200/300" alt="Banner 1" loading="lazy">
-                        <div class="carousel-caption">
-                            <h3>Siêu sale cuối năm</h3>
-                            <p>Giảm đến 50%</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="https://picsum.photos/id/26/1200/300" alt="Banner 2" loading="lazy">
-                        <div class="carousel-caption">
-                            <h3>Freeship đơn 0đ</h3>
-                            <p>Áp dụng toàn quốc</p>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="https://picsum.photos/id/30/1200/300" alt="Banner 3" loading="lazy">
-                        <div class="carousel-caption">
-                            <h3>Quà tặng triệu đô</h3>
-                            <p>Mua ngay kẻo lỡ</p>
-                        </div>
-                    </div>
-                </div>
-                <button class="carousel-prev"><i class="fas fa-chevron-left"></i></button>
-                <button class="carousel-next"><i class="fas fa-chevron-right"></i></button>
-                <div class="carousel-dots"></div>
             </div>
         </div>
 
@@ -91,10 +91,10 @@
                     </div>
                 </div>
                 
-                <!-- Tabs điều hướng -->
                 <div class="nav-tabs">
                     <button class="tab-btn active" data-tab="products">
                         <i class="fas fa-box"></i> Sản phẩm
+                        <span class="tab-badge" id="productCount">0</span>
                     </button>
                     <button class="tab-btn" data-tab="categories">
                         <i class="fas fa-th-large"></i> Danh mục
@@ -109,7 +109,6 @@
         <div class="container">
             <!-- Tab Products -->
             <div id="productsTab" class="tab-content active">
-                <!-- Filter Bar -->
                 <div class="filter-bar">
                     <button class="filter-btn active" data-sort="popular">
                         <i class="fas fa-fire"></i> Phổ biến
@@ -128,41 +127,104 @@
                     </button>
                 </div>
 
-                <!-- Skeleton Loading -->
+                <!-- Category Filter Tags -->
+                <div class="category-filter-tags" id="categoryFilterTags" style="display: none;">
+                    <span class="filter-label"><i class="fas fa-filter"></i> Lọc theo danh mục:</span>
+                    <button class="category-tag active" data-filter-category="all">Tất cả</button>
+                    <div id="dynamicCategoryTags"></div>
+                    <button class="clear-category-filter" id="clearCategoryFilter">
+                        <i class="fas fa-times"></i> Xóa lọc
+                    </button>
+                </div>
+
                 <div class="skeleton-grid" id="skeletonGrid">
                     <div class="skeleton-card"></div>
                     <div class="skeleton-card"></div>
                     <div class="skeleton-card"></div>
                     <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
                 </div>
 
-                <!-- Products Grid -->
                 <div class="products-grid" id="productsGrid"></div>
                 
-                <!-- No Results -->
                 <div class="no-results" id="noResults" style="display: none;">
                     <i class="fas fa-search"></i>
                     <h3>Không tìm thấy sản phẩm</h3>
                     <p>Hãy thử tìm kiếm với từ khóa khác nhé!</p>
+                    <button class="reset-search-btn" id="resetSearchBtn">
+                        <i class="fas fa-sync-alt"></i> Xóa tìm kiếm
+                    </button>
                 </div>
             </div>
 
             <!-- Tab Categories -->
             <div id="categoriesTab" class="tab-content">
+                <div class="categories-header">
+                    <h2><i class="fas fa-th-large"></i> Danh mục sản phẩm</h2>
+                    <p>Khám phá các danh mục nổi bật</p>
+                </div>
                 <div class="categories-grid" id="categoriesGrid"></div>
-                <div class="category-products" id="categoryProducts">
-                    <h3 class="category-title" id="categoryTitle"></h3>
-                    <div class="products-grid" id="categoryProductsGrid"></div>
+            </div>
+
+            <!-- Product Detail Modal -->
+            <div class="product-modal" id="productModal">
+                <div class="modal-overlay"></div>
+                <div class="modal-container">
+                    <div class="modal-content" id="modalContent"></div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Toast Message -->
-    <div id="toast" class="toast"></div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-store"></i> Gian Hàng Chính Hãng</h3>
+                    <p>Chuyên cung cấp các sản phẩm chất lượng cao</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Hỗ trợ khách hàng</h4>
+                    <ul>
+                        <li><a href="#">Chính sách bảo hành</a></li>
+                        <li><a href="#">Chính sách đổi trả</a></li>
+                        <li><a href="#">Phương thức vận chuyển</a></li>
+                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên hệ</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> Hotline: 1900 1234</li>
+                        <li><i class="fas fa-envelope"></i> Email: support@shop.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Địa chỉ: TP. Hồ Chí Minh</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Phương thức thanh toán</h4>
+                    <div class="payment-methods">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Gian Hàng Chính Hãng. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div id="toast" class="toast"></div>
 
     <script src="app.js"></script>
 </body>
