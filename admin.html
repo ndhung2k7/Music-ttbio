@@ -5,209 +5,689 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>Quản trị Admin - Gian Hàng Chính Hãng</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --admin-primary: #667eea;
+            --admin-primary-dark: #5a67d8;
+            --admin-secondary: #764ba2;
+            --admin-bg: #f5f7fa;
+            --admin-card-bg: #ffffff;
+            --admin-text: #2d3748;
+            --admin-text-light: #718096;
+            --admin-border: #e2e8f0;
+            --admin-success: #48bb78;
+            --admin-danger: #f56565;
+            --admin-warning: #ed8936;
+            --admin-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        body.dark {
+            --admin-primary: #8b5cf6;
+            --admin-primary-dark: #7c3aed;
+            --admin-secondary: #a78bfa;
+            --admin-bg: #1a1a2e;
+            --admin-card-bg: #16213e;
+            --admin-text: #e2e8f0;
+            --admin-text-light: #a0aec0;
+            --admin-border: #2d3748;
+            --admin-success: #68d391;
+            --admin-danger: #fc8181;
+            --admin-warning: #f6ad55;
+            --admin-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--admin-bg);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* Admin Dark Mode Toggle */
+        .admin-theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .admin-theme-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--admin-card-bg);
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--admin-shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--admin-text);
+        }
+
+        .admin-theme-btn:hover {
+            transform: scale(1.1);
+        }
+
         .admin-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 80px 20px 40px;
+            padding: 100px 20px 40px;
         }
+
         .admin-header {
-            background: linear-gradient(135deg, #ee4d2d, #ff6b4a);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
+            background: var(--admin-card-bg);
+            box-shadow: var(--admin-shadow);
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
+
+        .admin-header .admin-container {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .admin-header h1 {
             font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+
         .admin-header a {
-            color: white;
+            color: var(--admin-primary);
             text-decoration: none;
-            margin-left: 20px;
+            font-weight: 600;
+            transition: all 0.3s;
         }
-        .form-section, .products-list {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
+
+        .admin-header a:hover {
+            color: var(--admin-secondary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .shop-settings {
+            background: var(--admin-card-bg);
+            border-radius: 20px;
+            padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: var(--admin-shadow);
+            transition: all 0.3s ease;
         }
+
+        .shop-settings:hover {
+            transform: translateY(-5px);
+        }
+
+        .shop-settings h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--admin-text);
+            border-left: 4px solid var(--admin-primary);
+            padding-left: 15px;
+        }
+
+        .rating-settings {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .rating-setting {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .rating-setting label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--admin-text-light);
+        }
+
+        .rating-setting input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--admin-border);
+            border-radius: 12px;
+            font-size: 14px;
+            background: var(--admin-card-bg);
+            color: var(--admin-text);
+            transition: all 0.3s;
+        }
+
+        .rating-setting input:focus {
+            outline: none;
+            border-color: var(--admin-primary);
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        .form-section, .products-list, .categories-management {
+            background: var(--admin-card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--admin-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover, .products-list:hover, .categories-management:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-section h2, .products-list h2, .categories-management h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--admin-text);
+            border-left: 4px solid var(--admin-primary);
+            padding-left: 15px;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #333;
+            color: var(--admin-text-light);
         }
+
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 12px 15px;
+            border: 2px solid var(--admin-border);
+            border-radius: 12px;
             font-size: 14px;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            background: var(--admin-card-bg);
+            color: var(--admin-text);
         }
-        .image-upload-area {
-            border: 2px dashed #ddd;
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--admin-primary);
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        .badge-select-group {
+            margin-bottom: 20px;
             padding: 20px;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
+            background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+            border-radius: 16px;
+            border: 1px solid var(--admin-border);
         }
+
+        .badge-select-group h4 {
+            margin-bottom: 15px;
+            color: var(--admin-primary);
+            font-size: 1rem;
+        }
+
+        .badge-options {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge-option {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            background: var(--admin-card-bg);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid var(--admin-border);
+            text-align: center;
+        }
+
+        .badge-option:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--admin-shadow);
+        }
+
+        .badge-option.selected {
+            border-color: var(--admin-primary);
+            background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+        }
+
+        .badge-option img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .badge-option .badge-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--admin-text);
+        }
+
+        .badge-option .check-icon {
+            display: none;
+            color: var(--admin-success);
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        .badge-option.selected .check-icon {
+            display: inline-block;
+        }
+
+        .image-upload-area {
+            border: 2px dashed var(--admin-border);
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(102,126,234,0.05);
+        }
+
+        .image-upload-area:hover {
+            border-color: var(--admin-primary);
+            background: rgba(102,126,234,0.1);
+        }
+
         .preview-images {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 10px;
+            margin-top: 15px;
         }
+
         .preview-img {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 12px;
+            border: 2px solid var(--admin-border);
         }
+
         .btn {
             padding: 12px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
+            font-size: 14px;
         }
+
         .btn-primary {
-            background: #ee4d2d;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
             color: white;
         }
+
         .btn-primary:hover {
-            background: #d93c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
         }
+
         .btn-danger {
-            background: #f44336;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
             color: white;
         }
+
         .btn-warning {
-            background: #ff9800;
+            background: linear-gradient(135deg, #fa709a, #fee140);
+            color: var(--admin-text);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--admin-success), #38a169);
             color: white;
         }
+
+        .categories-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .category-admin-card {
+            background: rgba(102,126,234,0.05);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--admin-border);
+        }
+
+        .category-admin-card span {
+            font-weight: 600;
+            color: var(--admin-text);
+        }
+
+        .category-admin-card button {
+            padding: 6px 12px;
+            margin-left: 8px;
+        }
+
         .products-table {
             width: 100%;
             overflow-x: auto;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
+
         th, td {
-            padding: 12px;
+            padding: 15px;
             text-align: left;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--admin-border);
         }
+
         th {
-            background: #f8f9fa;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
+            color: white;
             font-weight: 600;
         }
-        .product-img {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 8px;
+
+        th:first-child { border-radius: 12px 0 0 0; }
+        th:last-child { border-radius: 0 12px 0 0; }
+
+        tr:hover {
+            background: rgba(102,126,234,0.05);
         }
+
+        .product-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .badge-preview {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .badge-preview img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
         .action-btns {
             display: flex;
             gap: 8px;
         }
+
         .action-btns button {
-            padding: 6px 12px;
+            padding: 8px 12px;
             font-size: 12px;
         }
+
+        /* Admin Notification */
+        .admin-notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--admin-card-bg);
+            border-radius: 12px;
+            padding: 16px 24px;
+            box-shadow: var(--admin-shadow);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease forwards;
+            border-left: 4px solid;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .admin-notification.success {
+            border-left-color: var(--admin-success);
+        }
+
+        .admin-notification.error {
+            border-left-color: var(--admin-danger);
+        }
+
+        .admin-notification i {
+            font-size: 1.5rem;
+        }
+
+        .admin-notification.success i {
+            color: var(--admin-success);
+        }
+
+        .admin-notification.error i {
+            color: var(--admin-danger);
+        }
+
+        .admin-notification .message {
+            font-weight: 500;
+            color: var(--admin-text);
+        }
+
         @media (max-width: 768px) {
             .admin-container {
-                padding: 100px 15px 30px;
+                padding: 80px 15px 30px;
             }
+            
             th, td {
-                padding: 8px;
+                padding: 10px;
                 font-size: 12px;
             }
+            
+            .action-btns button {
+                padding: 6px 8px;
+            }
+            
+            .categories-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .badge-options {
+                flex-direction: column;
+            }
+            
+            .admin-notification {
+                top: 70px;
+                right: 10px;
+                left: 10px;
+                padding: 12px 16px;
+            }
+            
+            .rating-settings {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-section, .products-list, .categories-management, .shop-settings {
+            animation: slideIn 0.5s ease;
         }
     </style>
 </head>
 <body>
+    <!-- Admin Dark Mode Toggle -->
+    <div class="admin-theme-toggle">
+        <button class="admin-theme-btn" id="adminDarkModeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
     <div class="admin-header">
-        <div class="admin-container" style="padding: 0; margin: 0;">
-            <h1><i class="fas fa-crown"></i> Trang Quản Trị</h1>
-            <a href="index.html"><i class="fas fa-store"></i> Về trang chủ</a>
+        <div class="admin-container">
+            <h1><i class="fas fa-crown"></i> Admin Dashboard</h1>
+            <div class="header-actions">
+                <a href="index.html"><i class="fas fa-store"></i> Về trang chủ</a>
+            </div>
         </div>
     </div>
 
     <div class="admin-container">
+        <!-- Cài đặt đánh giá shop -->
+        <div class="shop-settings">
+            <h2><i class="fas fa-star"></i> Cài đặt đánh giá gian hàng</h2>
+            <div class="rating-settings">
+                <div class="rating-setting">
+                    <label><i class="fas fa-star" style="color: #fbbf24;"></i> Điểm đánh giá (VD: 4.9)</label>
+                    <input type="number" id="shopRating" step="0.1" min="0" max="5" value="4.9">
+                </div>
+                <div class="rating-setting">
+                    <label><i class="fas fa-users"></i> Số lượng đánh giá (VD: 2300)</label>
+                    <input type="number" id="shopReviewCount" value="2300">
+                </div>
+                <div class="rating-setting">
+                    <button class="btn btn-primary" onclick="saveShopSettings()">
+                        <i class="fas fa-save"></i> Lưu cài đặt
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Form thêm/sửa sản phẩm -->
         <div class="form-section">
             <h2 id="formTitle"><i class="fas fa-plus-circle"></i> Thêm Sản Phẩm Mới</h2>
             <form id="productForm">
                 <input type="hidden" id="productId">
                 <div class="form-group">
-                    <label>Tên sản phẩm *</label>
-                    <input type="text" id="productName" required>
+                    <label><i class="fas fa-tag"></i> Tên sản phẩm *</label>
+                    <input type="text" id="productName" placeholder="Nhập tên sản phẩm..." required>
+                </div>
+                
+                <div class="badge-select-group">
+                    <h4><i class="fas fa-star"></i> Chọn badge hiển thị trên sản phẩm (Chọn 1 trong 3)</h4>
+                    <div class="badge-options">
+                        <div class="badge-option" data-badge="favorite">
+                            <img src="https://down-vn.img.susercontent.com/file/vn-11134258-7r98o-lyb3m8mjjmape6" alt="Yêu thích">
+                            <div class="badge-name">Yêu thích</div>
+                            <i class="fas fa-check-circle check-icon"></i>
+                        </div>
+                        <div class="badge-option" data-badge="sale">
+                            <img src="https://down-vn.img.susercontent.com/file/vn-11134258-820l4-mfjl4hy7rsi3b3" alt="Ưu đãi">
+                            <div class="badge-name">Ưu đãi</div>
+                            <i class="fas fa-check-circle check-icon"></i>
+                        </div>
+                        <div class="badge-option" data-badge="gift">
+                            <img src="https://down-vn.img.susercontent.com/file/vn-11134258-7r98o-lyb3kdam2qw17d" alt="Quà tặng">
+                            <div class="badge-name">Quà tặng</div>
+                            <i class="fas fa-check-circle check-icon"></i>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selectedBadge" value="">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-dollar-sign"></i> Giá (VNĐ) *</label>
+                    <input type="number" id="productPrice" placeholder="Nhập giá sản phẩm..." required>
                 </div>
                 <div class="form-group">
-                    <label>Giá (VNĐ) *</label>
-                    <input type="number" id="productPrice" required>
+                    <label><i class="fas fa-align-left"></i> Mô tả chi tiết</label>
+                    <textarea id="productDesc" rows="5" placeholder="Mô tả chi tiết sản phẩm..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Mô tả</label>
-                    <textarea id="productDesc" rows="3"></textarea>
+                    <label><i class="fas fa-link"></i> Link Shopee *</label>
+                    <input type="url" id="productLink" placeholder="https://shopee.vn/product/..." required>
                 </div>
                 <div class="form-group">
-                    <label>Link Shopee *</label>
-                    <input type="url" id="productLink" required>
-                </div>
-                <div class="form-group">
-                    <label>Số lượng đã bán</label>
+                    <label><i class="fas fa-chart-line"></i> Số lượng đã bán</label>
                     <input type="number" id="productSold" value="0">
                 </div>
                 <div class="form-group">
-                    <label>Phần trăm giảm giá (%)</label>
+                    <label><i class="fas fa-percent"></i> Phần trăm giảm giá (%)</label>
                     <input type="number" id="productDiscount" value="0" min="0" max="100">
                 </div>
                 <div class="form-group">
-                    <label>Danh mục</label>
-                    <select id="productCategory">
-                        <option value="Decor phòng">Decor phòng</option>
-                        <option value="Bàn gaming">Bàn gaming</option>
-                        <option value="Setup PC">Setup PC</option>
-                        <option value="Đèn LED">Đèn LED</option>
-                        <option value="Phụ kiện">Phụ kiện</option>
-                        <option value="Nội thất">Nội thất</option>
-                        <option value="Thảm">Thảm</option>
-                        <option value="Gương">Gương</option>
-                        <option value="Kệ đồ">Kệ đồ</option>
-                    </select>
+                    <label><i class="fas fa-folder"></i> Danh mục</label>
+                    <select id="productCategory"></select>
                 </div>
                 <div class="form-group">
-                    <label>Hình ảnh (URL hoặc upload nhiều ảnh)</label>
+                    <label><i class="fas fa-images"></i> Hình ảnh sản phẩm (Tỷ lệ 1:1)</label>
                     <div class="image-upload-area" id="imageUploadArea">
-                        <i class="fas fa-cloud-upload-alt fa-2x"></i>
-                        <p>Click hoặc kéo thả ảnh vào đây</p>
+                        <i class="fas fa-cloud-upload-alt fa-3x" style="color: var(--admin-primary);"></i>
+                        <p>Click hoặc kéo thả ảnh vào đây (tự động cắt tỷ lệ 1:1)</p>
                         <input type="file" id="imageInput" multiple accept="image/*" style="display: none;">
                     </div>
                     <div class="preview-images" id="imagePreview"></div>
-                    <small>Hoặc nhập URL ảnh (cách nhau bằng dấu phẩy):</small>
-                    <input type="text" id="imageUrls" placeholder="https://picsum.photos/id/1/300/300, https://picsum.photos/id/2/300/300">
+                    <small style="color: var(--admin-text-light);">Hoặc nhập URL ảnh (cách nhau bằng dấu phẩy):</small>
+                    <input type="text" id="imageUrls" placeholder="https://picsum.photos/id/1/400/400, https://picsum.photos/id/2/400/400" style="margin-top: 10px;">
                 </div>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu sản phẩm</button>
-                <button type="button" id="cancelEdit" class="btn" style="display: none;"><i class="fas fa-times"></i> Hủy</button>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu sản phẩm</button>
+                    <button type="button" id="cancelEdit" class="btn" style="display: none; background: #999; color: white;"><i class="fas fa-times"></i> Hủy</button>
+                </div>
             </form>
+        </div>
+
+        <!-- Quản lý danh mục -->
+        <div class="categories-management">
+            <h2><i class="fas fa-th-large"></i> Quản lý danh mục</h2>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <input type="text" id="newCategoryName" placeholder="Tên danh mục mới" style="flex: 1; padding: 10px; border: 2px solid var(--admin-border); border-radius: 8px; background: var(--admin-card-bg); color: var(--admin-text);">
+                <button class="btn btn-success" onclick="addNewCategory()">
+                    <i class="fas fa-plus"></i> Thêm danh mục
+                </button>
+            </div>
+            <div class="categories-list" id="categoriesList"></div>
         </div>
 
         <!-- Danh sách sản phẩm -->
@@ -216,7 +696,7 @@
             <div class="products-table">
                 <table id="productsTable">
                     <thead>
-                        <tr><th>Ảnh</th><th>Tên</th><th>Giá</th><th>Danh mục</th><th>Đã bán</th><th>Thao tác</th></tr>
+                        <tr><th>Ảnh</th><th>Tên & Badge</th><th>Giá</th><th>Danh mục</th><th>Đã bán</th><th>Thao tác</th></tr>
                     </thead>
                     <tbody id="productsTableBody"></tbody>
                 </table>
