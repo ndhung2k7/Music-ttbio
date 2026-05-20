@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Quản trị Admin - Gian Hàng Chính Hãng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 20px 40px;
+        }
+        .admin-header {
+            background: linear-gradient(135deg, #ee4d2d, #ff6b4a);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .admin-header h1 {
+            font-size: 1.5rem;
+        }
+        .admin-header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        .form-section, .products-list {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .image-upload-area {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .preview-images {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .preview-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #ee4d2d;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #d93c1c;
+        }
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        .btn-warning {
+            background: #ff9800;
+            color: white;
+        }
+        .products-table {
+            width: 100%;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        .product-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btns button {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 100px 15px 30px;
+            }
+            th, td {
+                padding: 8px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <div class="admin-container" style="padding: 0; margin: 0;">
+            <h1><i class="fas fa-crown"></i> Trang Quản Trị</h1>
+            <a href="index.html"><i class="fas fa-store"></i> Về trang chủ</a>
+        </div>
+    </div>
+
+    <div class="admin-container">
+        <!-- Form thêm/sửa sản phẩm -->
+        <div class="form-section">
+            <h2 id="formTitle"><i class="fas fa-plus-circle"></i> Thêm Sản Phẩm Mới</h2>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label>Tên sản phẩm *</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label>Giá (VNĐ) *</label>
+                    <input type="number" id="productPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Mô tả</label>
+                    <textarea id="productDesc" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Link Shopee *</label>
+                    <input type="url" id="productLink" required>
+                </div>
+                <div class="form-group">
+                    <label>Số lượng đã bán</label>
+                    <input type="number" id="productSold" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Phần trăm giảm giá (%)</label>
+                    <input type="number" id="productDiscount" value="0" min="0" max="100">
+                </div>
+                <div class="form-group">
+                    <label>Danh mục</label>
+                    <select id="productCategory">
+                        <option value="Decor phòng">Decor phòng</option>
+                        <option value="Bàn gaming">Bàn gaming</option>
+                        <option value="Setup PC">Setup PC</option>
+                        <option value="Đèn LED">Đèn LED</option>
+                        <option value="Phụ kiện">Phụ kiện</option>
+                        <option value="Nội thất">Nội thất</option>
+                        <option value="Thảm">Thảm</option>
+                        <option value="Gương">Gương</option>
+                        <option value="Kệ đồ">Kệ đồ</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hình ảnh (URL hoặc upload nhiều ảnh)</label>
+                    <div class="image-upload-area" id="imageUploadArea">
+                        <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                        <p>Click hoặc kéo thả ảnh vào đây</p>
+                        <input type="file" id="imageInput" multiple accept="image/*" style="display: none;">
+                    </div>
+                    <div class="preview-images" id="imagePreview"></div>
+                    <small>Hoặc nhập URL ảnh (cách nhau bằng dấu phẩy):</small>
+                    <input type="text" id="imageUrls" placeholder="https://picsum.photos/id/1/300/300, https://picsum.photos/id/2/300/300">
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu sản phẩm</button>
+                <button type="button" id="cancelEdit" class="btn" style="display: none;"><i class="fas fa-times"></i> Hủy</button>
+            </form>
+        </div>
+
+        <!-- Danh sách sản phẩm -->
+        <div class="products-list">
+            <h2><i class="fas fa-list"></i> Danh sách sản phẩm</h2>
+            <div class="products-table">
+                <table id="productsTable">
+                    <thead>
+                        <tr><th>Ảnh</th><th>Tên</th><th>Giá</th><th>Danh mục</th><th>Đã bán</th><th>Thao tác</th></tr>
+                    </thead>
+                    <tbody id="productsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
